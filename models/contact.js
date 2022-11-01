@@ -20,6 +20,14 @@ const contactSchema = new Schema({
       type: Boolean,
       default: false,
     },
+   owner: {
+       type: Schema.Types.ObjectId,
+       ref: "user",
+       required: true,
+    },
+
+
+
 }, {versionKey: false, timestamps: true})
 
 contactSchema.post("save", handleSaveErrors);
@@ -41,6 +49,12 @@ const addSchema = Joi.object({
     
 });
 
+const updateContactSchema = Joi.object({
+    name: Joi.string().optional(),
+    email: Joi.string().optional(),
+    phone: Joi.string().optional(),
+});
+
 const updateFavoriteSchema = Joi.object({
     favorite: Joi.boolean().required(),
 })
@@ -48,6 +62,7 @@ const updateFavoriteSchema = Joi.object({
 const schemas = {
     addSchema,
     updateFavoriteSchema,
+    updateContactSchema,
 }
 
 const Contact = model("contact", contactSchema)
